@@ -19,12 +19,17 @@ export class NotificationsService {
       data: { someData: 'goes here' },
     }));
 
-    await expo.sendPushNotificationsAsync(messages);
-    // try {
-    //   const tickets = await expo.sendPushNotificationsAsync(messages);
-    //   console.log(tickets);
-    // } catch (error) {
-    //   console.error('Ошибка при отправке уведомлений:', error);
-    // }
+    const chunks = expo.chunkPushNotifications(messages);
+    const tickets = [];
+
+    for (const chunk of chunks) {
+      try {
+        const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+        console.log(ticketChunk);
+        tickets.push(...ticketChunk);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 }
