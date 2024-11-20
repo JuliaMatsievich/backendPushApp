@@ -7,17 +7,20 @@ import { SoundNotification } from './notifications.types';
 export class NotificationsService {
   constructor(private prisma: PrismaService) {}
 
-  async sendNotification(message: string, sound: SoundNotification, title: string) {
+  async sendNotification(title: string, sound: SoundNotification, body: string) {
     const tokens = await this.prisma.user.findMany();
     const expo = new expoPushNotifications();
 
     const messages = tokens.map((user) => ({
       to: user.pushToken,
-      sound: sound,
       title: title,
-      body: message,
+      sound: sound,
+      body: body,
       data: { someData: 'goes here' },
     }));
+
+    console.log('title', title);
+    console.log('body', body);
 
     const chunks = expo.chunkPushNotifications(messages);
     const tickets = [];
@@ -31,5 +34,6 @@ export class NotificationsService {
         console.error(error);
       }
     }
+    return messages;
   }
 }
