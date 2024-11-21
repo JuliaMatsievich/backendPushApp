@@ -13,7 +13,8 @@ async function bootstrap() {
     credentials: true, // Allow credentials (cookies, HTTP authentication)
   });
   app.setGlobalPrefix('api');
-  await app.listen(3000);
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT);
 }
 
 bootstrap();

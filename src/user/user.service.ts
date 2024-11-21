@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserDto } from './user.dto';
 
@@ -40,7 +39,7 @@ export class UserService {
     return users.map((user) => user.pushToken);
   }
 
-  returnUserFields(user: User) {
+  returnUserFields(user) {
     return {
       id: user.id,
       pushToken: user.pushToken,
