@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine as build
 
 WORKDIR /usr/src/app
 
@@ -11,6 +11,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3000/tcp
+EXPOSE 3001/tcp
 
 CMD [ "node", "dist/main.js" ]
