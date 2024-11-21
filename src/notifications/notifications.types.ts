@@ -1,7 +1,5 @@
-export type SoundNotification =
-  | 'default'
-  | {
-      critical?: boolean;
-      name?: 'default';
-      volume?: number;
-    };
+export type SoundNotification = {
+  critical?: boolean;
+  name?: 'default';
+  volume?: number;
+};

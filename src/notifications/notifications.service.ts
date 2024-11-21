@@ -1,26 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import expoPushNotifications from 'expo-server-sdk'; // или используйте библиотеку для уведомлений
 import { PrismaService } from '../prisma/prisma.service';
-import { SoundNotification } from './notifications.types';
+import { NotificationDto } from './notification.dto';
 
 @Injectable()
 export class NotificationsService {
   constructor(private prisma: PrismaService) {}
 
-  async sendNotification(title: string, sound: SoundNotification, body: string) {
+  async sendNotification(dto: NotificationDto) {
     const tokens = await this.prisma.user.findMany();
     const expo = new expoPushNotifications();
 
     const messages = tokens.map((user) => ({
       to: user.pushToken,
-      title: title,
-      sound: sound,
-      body: body,
+      title: dto.title,
+      sound: dto.sound ?? dto.soundObj,
+      body: dto.body,
       data: { someData: 'goes here' },
     }));
-
-    console.log('title', title);
-    console.log('body', body);
 
     const chunks = expo.chunkPushNotifications(messages);
     const tickets = [];
