@@ -11,6 +11,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3001/tcp
+EXPOSE 8080/tcp
 
 CMD [ "node", "dist/main.js" ]
